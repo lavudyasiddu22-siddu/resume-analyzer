@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resume Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🚀 Resume Analyzer</h1>
+
+    <!-- ERROR MESSAGE -->
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <!-- FORM -->
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="resume" required>
+
+        <textarea name="job_desc" placeholder="Paste Job Description..." required></textarea>
+
+        <button type="submit">Analyze</button>
+    </form>
+
+    <!-- RESULT -->
+    {% if score is not none %}
+    <div class="result">
+
+        <h2>🎯 Match Score: {{ score }}%</h2>
+
+        <div class="progress">
+            <div class="progress-bar" style="width: {{ score }}%;"></div>
+        </div>
+
+        <h3>✅ Matched Skills</h3>
+        <div class="tags">
+            {% if matched %}
+                {% for word in matched %}
+                    <span class="tag good">{{ word }}</span>
+                {% endfor %}
+            {% else %}
+                <p>No matching skills</p>
+            {% endif %}
+        </div>
+
+        <h3>❌ Missing Skills</h3>
+        <div class="tags">
+            {% if missing %}
+                {% for word in missing %}
+                    <span class="tag bad">{{ word }}</span>
+                {% endfor %}
+            {% else %}
+                <p>No missing skills 🎉</p>
+            {% endif %}
+        </div>
+
+    </div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>
